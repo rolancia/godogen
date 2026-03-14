@@ -1,22 +1,18 @@
-# Godogen turns a sentence into a playable game — fully autonomously, no human in the loop.
+# Godogen: Claude Code skills that build complete Godot 4 projects
 
-Powered by Godot Engine and Claude Code.
+[![Watch the video](https://img.youtube.com/vi/eUz19GROIpY/maxresdefault.jpg)](https://youtu.be/eUz19GROIpY)
 
-[![Watch the video](https://img.youtube.com/vi/4_2Pl07Z7Ac/maxresdefault.jpg)](https://youtu.be/4_2Pl07Z7Ac)
+[Watch the demos](https://youtu.be/eUz19GROIpY) · [Prompts](demo_prompts.md)
 
-[Watch the demos](https://youtu.be/4_2Pl07Z7Ac) [Prompts](demo_prompts.md)
-
-You describe what you want. An AI pipeline designs the architecture, generates the art, writes every line of code, captures screenshots from the running engine, and fixes what doesn't look right — all by itself. The output isn't a visual demo or a throwaway prototype. It's a real Godot 4 project with organized scenes, readable scripts, and proper game architecture.
-
-This is the first time an autonomous AI pipeline produces games that actually work — not snippets, not mockups, but complete projects you can open, play, and build on. It handles 2D and 3D, from a nature scene to a snowboarding game. It runs on commodity hardware, no GPU cluster required. And because the architecture is real, these projects can scale toward commercial games as the tools improve.
+You describe what you want. An AI pipeline designs the architecture, generates the art, writes every line of code, captures screenshots from the running engine, and fixes what doesn't look right. The output is a real Godot 4 project with organized scenes, readable scripts, and proper game architecture. Handles 2D and 3D, runs on commodity hardware.
 
 ## How it works
 
 - **Two Claude Code skills** orchestrate the entire pipeline — one plans, one executes. Each task runs in a fresh context to stay focused.
-- **Godot 4 output** — produces real projects with proper scene trees, scripts, and asset organization — not throwaway prototypes.
+- **Godot 4 output** — real projects with proper scene trees, scripts, and asset organization.
 - **Asset generation** — Gemini creates 2D art and textures; Tripo3D converts selected images to 3D models. Budget-aware: maximizes visual impact per cent spent.
 - **GDScript expertise** — custom-built language reference and lazy-loaded API docs for all 850+ Godot classes compensate for LLMs' thin training data on GDScript.
-- **Visual QA closes the loop** — captures actual screenshots from the running game and analyzes them with Gemini Flash vision. Catches z-fighting, missing textures, broken physics — bugs invisible to text analysis.
+- **Visual QA closes the loop** — captures actual screenshots from the running game and analyzes them with Gemini Flash vision. Catches z-fighting, missing textures, broken physics.
 - **Runs on commodity hardware** — any PC with Godot and Claude Code works.
 
 ## Getting started
@@ -50,7 +46,7 @@ The default `CLAUDE.md` (`teleforge.md`) is set up for [Teleforge](https://githu
 
 ## Is Claude Code the only option?
 
-The skills were tested across different setups. Claude Code with Opus 4.6 delivers the best outcome. Sonnet 4.6 works but requires more guidance from the user. Codex and Gemini CLI didn't deliver clean results — I decided to focus on Claude Code instead. [OpenCode](https://opencode.ai/) was quite nice and porting the skills is straightforward — I'd recommend it if you're looking for an alternative.
+The skills were tested across different setups. Claude Code with Opus 4.6 delivers the best outcome. Sonnet 4.6 works but requires more guidance from the user. [OpenCode](https://opencode.ai/) was quite nice and porting the skills is straightforward — I'd recommend it if you're looking for an alternative.
 
 ## Roadmap
 
