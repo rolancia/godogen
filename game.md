@@ -1,5 +1,7 @@
 Use `$godogen` to generate or update this game from a natural language description.
 
+If no concrete game description or change request is provided, ask for it first. Do not infer one from the repo name, folder name, or existing files alone.
+
 Visual quality is the top priority. Example failures:
 - Generating a detailed image then shrinking it to a tile — details become tiny and clunky. Generate with shapes appropriate for the target size.
 - Tiling textures where a single high-quality drawn background is needed

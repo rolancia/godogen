@@ -26,6 +26,11 @@ Read each sub-file from `.agents/skills/godogen/` when you reach its pipeline st
 ```
 User request
     |
+    +- If PLAN.md does not exist and the current user message does not contain
+    |  a concrete game description or change request:
+    |   +- Ask the user what game to make
+    |   +- Stop. Do not infer a game from the repo name, folder name, or existing files alone
+    |
     +- Check if PLAN.md exists (resume check)
     |   +- If yes: read PLAN.md, STRUCTURE.md, MEMORY.md -> skip to task execution
     |   +- If no: continue with fresh pipeline below
