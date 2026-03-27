@@ -13,12 +13,12 @@ Default is `standard`. Use `pro` when visual quality is the priority (background
 
 ## CLI Reference
 
-Tools live at `${CLAUDE_SKILL_DIR}/tools/`. Run from the project root.
+Tools live at `.agents/skills/godogen/tools/`. Run from the project root.
 
 ### Generate image (2-7 cents)
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py image \
+python3 .agents/skills/godogen/tools/asset_gen.py image \
   --prompt "the full prompt" -o assets/img/car.png
 ```
 
@@ -30,7 +30,7 @@ Typical combos: `--model pro --size 2K --aspect-ratio 16:9` (landscape bg), `--m
 
 ### Remove background
 
-Read `${CLAUDE_SKILL_DIR}/rembg.md` for full guide: CLI, prompting strategy, troubleshooting, batch mode.
+Read `.agents/skills/godogen/rembg.md` for full guide: CLI, prompting strategy, troubleshooting, batch mode.
 
 ### Generate animated sprite (2¢ ref + 2¢/pose + 5¢/sec video)
 
@@ -41,7 +41,7 @@ Workflow: reference → pose frame → video → slice → loop trim → rembg.
 Standard model, 1:1, neutral pose, solid BG — same color strategy as for rembg. Review carefully: this image anchors all subsequent poses and videos.
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py image \
+python3 .agents/skills/godogen/tools/asset_gen.py image \
   --prompt "knight in armor, neutral standing pose, facing right, solid dark-green background" \
   --aspect-ratio 1:1 -o assets/img/knight_ref.png
 ```
@@ -51,7 +51,7 @@ python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py image \
 Image-to-image edit: feed the reference, prompt only for the action/pose.
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py image \
+python3 .agents/skills/godogen/tools/asset_gen.py image \
   --prompt "walking to the right, mid-stride pose, side view, solid dark-green background" \
   --image assets/img/knight_ref.png \
   --aspect-ratio 1:1 -o assets/img/knight_walk_pose.png
@@ -62,7 +62,7 @@ python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py image \
 Feed the pose frame (not the reference) as the starting image. Prompt focuses on the motion, not appearance. Choose duration to fit the action — 2s for walk/run cycles, longer for complex actions.
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py video \
+python3 .agents/skills/godogen/tools/asset_gen.py video \
   --prompt "walking to the right, smooth walk cycle, solid dark-green background" \
   --image assets/img/knight_walk_pose.png \
   --duration 2 -o assets/video/knight_walk.mp4
@@ -84,7 +84,7 @@ ffmpeg -i assets/video/knight_walk.mp4 -vsync 0 assets/video/knight_walk_frames/
 For walk/run/idle cycles, find the frame most similar to frame 1 and trim there. Skip for one-shot animations (attack, death, jump).
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/find_loop_frame.py assets/video/knight_walk_frames/
+python3 .agents/skills/godogen/tools/find_loop_frame.py assets/video/knight_walk_frames/
 ```
 
 Output: `{"loop_frame": 27, "similarity": 0.9997, "total_frames": 73}`
@@ -94,7 +94,7 @@ Then delete frames after the loop point, or note the range for the next step.
 **Step 6: Batch background removal** (see `rembg.md` for full guide)
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/rembg_matting.py \
+python3 .agents/skills/godogen/tools/rembg_matting.py \
   --batch assets/video/knight_walk_frames/ \
   -o assets/img/knight_walk/
 ```
@@ -106,14 +106,14 @@ Repeat from step 2 using the same reference image. Each new animation costs 2¢ 
 ### Convert image to GLB (30-60 cents)
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py glb \
+python3 .agents/skills/godogen/tools/asset_gen.py glb \
   --image assets/img/car.png --quality medium -o assets/glb/car.glb
 ```
 
 ### Set budget
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/asset_gen.py set_budget 500
+python3 .agents/skills/godogen/tools/asset_gen.py set_budget 500
 ```
 
 Sets the generation budget to 500 cents. All subsequent generations check remaining budget and reject if insufficient. CRITICAL: only call once at the start, and only when the user explicitly provides a budget.
@@ -156,7 +156,7 @@ Minimum generation resolution is 1K. A 1024px image downscaled to 64px or even 1
 
 ## What to Generate — Cheatsheet
 
-For any asset needing transparency, read `${CLAUDE_SKILL_DIR}/rembg.md` first — covers BG color strategy, CLI, and troubleshooting.
+For any asset needing transparency, read `.agents/skills/godogen/rembg.md` first — covers BG color strategy, CLI, and troubleshooting.
 
 ### Background / large scenic image (7c pro)
 
@@ -212,7 +212,7 @@ To match an existing style, pass a reference — the model sees it, so just desc
 
 Slice into individual PNGs:
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/grid_slice.py path_grid.png \
+python3 .agents/skills/godogen/tools/grid_slice.py path_grid.png \
   -o assets/img/items/ --grid 2x2 --names "sword,shield,potion,helm"
 ```
 

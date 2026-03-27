@@ -10,7 +10,7 @@ Generate and update Godot games from natural language.
 
 ## Capabilities
 
-Read each sub-file from `${CLAUDE_SKILL_DIR}/` when you reach its pipeline stage.
+Read each sub-file from `.agents/skills/godogen/` when you reach its pipeline stage.
 
 | File | Purpose |
 |------|---------|
@@ -48,7 +48,7 @@ User request
     +- Find next ready task (pending, deps all done)
     +- While a ready task exists:
     |   +- Update PLAN.md: mark task status -> in_progress
-    |   +- Skill(skill="godot-task") with task block
+    |   +- Run `$godot-task` with task block
     |   +- Mark task completed in PLAN.md OR replan based on the outcome, summarize to user
     |   +- git add . && git commit -m "Task N done"
     |   +- Find next ready task
@@ -60,10 +60,10 @@ PLAN.md task `**Status:**`: one of `pending`, `in_progress`, `done`, `done (part
 
 ## Running Tasks
 
-Each task runs via `Skill(skill="godot-task")` which auto-forks into a sub-agent with clean context. Pass the full task block from PLAN.md as the skill argument:
+Each task runs via `$godot-task`. Pass the full task block from PLAN.md as the skill argument:
 
 ```
-Skill(skill="godot-task") with argument:
+$godot-task with argument:
   ## N. {Task Name}
   - **Status:** in_progress
   - **Targets:** scenes/main.tscn, scripts/player_controller.gd

@@ -19,7 +19,7 @@ Works for both fresh projects and incremental changes (adding scenes/scripts, re
 8. **Import assets** — `timeout 60 godot --headless --import 2>&1`. Ensures all assets (`.glb`, `.png`, etc.) are imported before scene builders reference them.
 9. **Build scene stubs** — for each new/changed scene, write a scene builder script to `scenes/build_{name}.gd` using the template below, then run in dependency order (leaf scenes first): `timeout 60 godot --headless --script scenes/build_{name}.gd`
 10. **Verify** — `timeout 60 godot --headless --quit 2>&1`. No `ERROR` or `Parser Error` lines. RID warnings are benign.
-11. **Git commit** — repo is already initialized before Claude Code starts:
+11. **Git commit** — repo is already initialized before Codex starts:
     ```bash
     git add -A && git commit -m "scaffold: project skeleton"
     ```
@@ -143,10 +143,8 @@ Architecture graph plus asset hints for the asset planner. No descriptions, no r
 
 ### 3. `.gitignore`
 
-Assets, tools, and build artifacts stay out of git:
+Assets and build artifacts stay out of git:
 ```
-.claude
-CLAUDE.md
 assets
 screenshots
 .godot

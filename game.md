@@ -1,4 +1,4 @@
-Use `/godogen` to generate or update this game from a natural language description.
+Use `$godogen` to generate or update this game from a natural language description.
 
 Visual quality is the top priority. Example failures:
 - Generating a detailed image then shrinking it to a tile — details become tiny and clunky. Generate with shapes appropriate for the target size.
@@ -17,7 +17,7 @@ When a channel is connected (Telegram, Slack, etc.), broadcast progress via `rep
 
 # Project Structure
 
-Game projects follow this layout once `/godogen` runs:
+Game projects follow this layout once `$godogen` runs:
 
 ```
 project.godot          # Godot config: viewport, input maps, autoloads

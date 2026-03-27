@@ -16,7 +16,7 @@ Large language models can write game code, but they struggle with the full pictu
 
 Godogen solves this by decomposing game development into focused stages — art direction, architecture, asset generation, implementation, visual QA — and encoding deep domain expertise into each one. Rather than one monolithic prompt trying to do everything, each stage has focused instructions, clear inputs, and clear outputs. The stages communicate through structured documents, not conversation, which means the system scales without drowning in context.
 
-The entire system is implemented as two Claude Code skills: **godogen** (the orchestrator that runs the planning pipeline) and **godot-task** (the task executor that implements each piece of the game in a forked context). The godogen skill loads stage-specific instructions progressively — reading each sub-file only when that pipeline stage begins — so the context window stays clean throughout a multi-stage run.
+The entire system is implemented as two Codex skills: **godogen** (the orchestrator that runs the planning pipeline) and **godot-task** (the task executor that implements each piece of the game in a forked context). The godogen skill loads stage-specific instructions progressively — reading each sub-file only when that pipeline stage begins — so the context window stays clean throughout a multi-stage run.
 
 The key insight: **visual verification closes the loop.** Every piece of work is tested by capturing actual screenshots from the running game and analyzing them with a vision model. This is how a human QA tester works — they look at the screen and say "that's wrong." Godogen does the same thing automatically, catching bugs that would be invisible to text-based analysis: z-fighting, floating objects, broken physics, placeholder textures, and mismatched art styles.
 
@@ -36,7 +36,7 @@ The system runs as a sequential pipeline of stages. The godogen skill orchestrat
 
 The asset-gen tooling provides sophisticated capabilities: sprite sheet generation from numbered templates (guaranteeing exact grid alignment), alpha-channel background removal with multi-signal matting (handling hair, glass, and semi-transparent materials), and 3D model generation at multiple quality tiers.
 
-**5. Task Execution** — The orchestrator walks the task DAG, picking up ready tasks (pending, dependencies done) and dispatching each one to the **godot-task** skill. This skill runs with `context: fork`, meaning each task gets a fresh context window — no accumulated state from previous tasks, no context pollution. For each task, the executor:
+**5. Task Execution** — The orchestrator walks the task DAG, picking up ready tasks (pending, dependencies done) and dispatching each one to the **godot-task** skill. This skill runs in a forked context, meaning each task gets a fresh context window — no accumulated state from previous tasks, no context pollution. For each task, the executor:
 
 - Generates scene builder scripts — GDScript programs that run headlessly in Godot to produce `.tscn` scene files programmatically (avoiding the fragility of hand-editing serialized scene formats)
 - Writes runtime scripts — the actual game logic
@@ -120,9 +120,7 @@ This document-based communication is deliberate. The godot-task skill runs in a 
 
 ### Deployment Model
 
-The `publish.sh` script copies the `skills/` directory into a target game directory under `.claude/skills/`, drops in a `CLAUDE.md` with session instructions (defaulting to `teleforge.md`), and initializes a git repo. The game project is then self-contained: anyone with Claude Code can open the folder and run `/godogen` to build or iterate on the game.
-
-For remote operation, `teleforge.md` configures the system as a non-interactive background process connected to Telegram. The user sends a message, walks away, and receives screenshots, QA verdicts, and a final gameplay video as the game takes shape — a game studio in a chat window.
+The `publish.sh` script copies the `skills/` directory into a target game directory under `.agents/skills/`, drops in an `AGENTS.md` with session instructions (defaulting to `game.md`), and initializes a git repo. The game project is then self-contained: anyone with Codex can open the folder and run `$godogen` to build or iterate on the game.
 
 ## What Makes This Different
 

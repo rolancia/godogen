@@ -1,34 +1,32 @@
 #!/usr/bin/env bash
 # Publish godogen skills into a target project directory.
-# Creates .claude/skills/ and copies a CLAUDE.md.
+# Creates .agents/skills/ and copies an AGENTS.md.
 #
-# Usage: ./publish.sh <target_dir> [claude_md]
-#   claude_md  Path to CLAUDE.md to use (default: game.md)
+# Usage: ./publish.sh <target_dir> [agents_md]
+#   agents_md  Path to the AGENTS.md template to use (default: game.md)
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
 
 if [ $# -lt 1 ]; then
-    echo "Usage: $0 <target_dir> [claude_md]"
+    echo "Usage: $0 <target_dir> [agents_md]"
     exit 1
 fi
 
 TARGET="$(cd "$1" 2>/dev/null && pwd || (mkdir -p "$1" && cd "$1" && pwd))"
-CLAUDE_MD="${2:-$REPO_ROOT/game.md}"
+AGENTS_MD="${2:-$REPO_ROOT/game.md}"
 
 echo "Publishing to: $TARGET"
 
-mkdir -p "$TARGET/.claude/skills"
+mkdir -p "$TARGET/.agents/skills"
 rsync -a --delete --exclude='doc_source/' --exclude='__pycache__/' \
-    "$REPO_ROOT/skills/" "$TARGET/.claude/skills/"
+    "$REPO_ROOT/skills/" "$TARGET/.agents/skills/"
 
-cp "$CLAUDE_MD" "$TARGET/CLAUDE.md"
-echo "Created CLAUDE.md (from $CLAUDE_MD)"
+cp "$AGENTS_MD" "$TARGET/AGENTS.md"
+echo "Created AGENTS.md (from $AGENTS_MD)"
 
 if [ ! -f "$TARGET/.gitignore" ]; then
     cat > "$TARGET/.gitignore" << 'GI_EOF'
-.claude
-CLAUDE.md
 assets
 screenshots
 .godot
@@ -39,4 +37,4 @@ fi
 
 git -C "$TARGET" init -q 2>/dev/null || true
 
-echo "Done. skills: $(ls "$TARGET/.claude/skills/" | wc -l)"
+echo "Done. skills: $(ls "$TARGET/.agents/skills/" | wc -l)"

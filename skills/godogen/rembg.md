@@ -40,7 +40,7 @@ If the script warns about GPU detected but CUDA unavailable — install the deps
 
 ## CLI
 
-Dependencies in `${CLAUDE_SKILL_DIR}/tools/requirements.txt`. If rembg is not installed:
+Dependencies in `.agents/skills/godogen/tools/requirements.txt`. If rembg is not installed:
 ```bash
 pip install rembg[gpu,cli]   # use rembg[cpu,cli] if no GPU
 ```
@@ -48,14 +48,14 @@ pip install rembg[gpu,cli]   # use rembg[cpu,cli] if no GPU
 ### Single image
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/rembg_matting.py \
+python3 .agents/skills/godogen/tools/rembg_matting.py \
   assets/img/car.png -o assets/img/car_nobg.png
 ```
 
 ### Batch (video frames)
 
 ```bash
-python3 ${CLAUDE_SKILL_DIR}/tools/rembg_matting.py \
+python3 .agents/skills/godogen/tools/rembg_matting.py \
   --batch frames_dir/ -o clean_dir/
 ```
 
