@@ -10,7 +10,7 @@ Generate and update Godot games from natural language.
 
 ## Capabilities
 
-Read each sub-file from `.agents/skills/godogen/` when you reach its pipeline stage.
+Read each sub-file from `.agents/skills/godogen/` when you reach its pipeline stage. Do not improvise a pipeline stage before reading its file.
 
 | File | Purpose |
 |------|---------|
@@ -35,11 +35,12 @@ User request
     |   +- If yes: read PLAN.md, STRUCTURE.md, MEMORY.md -> skip to task execution
     |   +- If no: continue with fresh pipeline below
     |
-    +- Generate visual target -> reference.png + ASSETS.md (art direction only)
-    +- Decompose into tasks -> PLAN.md
-    +- Design architecture -> STRUCTURE.md + project.godot + stubs
+    +- Read visual-target.md -> generate reference.png + ASSETS.md (art direction only)
+    +- Read decomposer.md -> decompose into tasks -> PLAN.md
+    +- Read scaffold.md -> design architecture -> STRUCTURE.md + project.godot + stubs
     |
     +- If budget provided (and no asset tables in ASSETS.md):
+    |   +- Read asset-planner.md and asset-gen.md
     |   +- Plan and generate assets -> ASSETS.md + updated PLAN.md with asset assignments
     |
     +- For every task in PLAN.md:
@@ -62,6 +63,13 @@ User request
 ```
 
 PLAN.md task `**Status:**`: one of `pending`, `in_progress`, `done`, `done (partial)`, `skipped`.
+
+## Hard Rules
+
+- Before creating `reference.png`, read `visual-target.md` and use its CLI path. Do not hand-draw, sketch, or create a placeholder reference image unless the user explicitly asks for that.
+- Before generating any PNG, MP4, or GLB asset, read `asset-gen.md`. If `.agents/skills/godogen/tools/asset_gen.py` exists, try it before inventing another generator or fallback workflow.
+- If an asset generation command fails, surface the actual command and failure to the user instead of silently switching to a different approach.
+- Before any background removal step, read `rembg.md`.
 
 ## Running Tasks
 
